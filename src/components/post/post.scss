@@ -1,0 +1,62 @@
+@use "../../themes/theme.scss" as *;
+
+.post {
+  @include themify($themes) {
+    .container {
+      display: flex;
+      flex-direction: column;
+      background-color: themeColor("bg-1");
+      color: themeColor("text-color-1");
+      gap: 2rem;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 1.5rem rgba(black, 0.4);
+
+      .user {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .post__user {
+          p {
+            flex-direction: column;
+            gap: 0;
+          }
+        }
+      }
+
+      .content {
+        &__text {
+          line-height: 1.5;
+        }
+
+        &__img {
+          height: 100%;
+          max-height: 50rem;
+          width: 100%;
+          object-fit: cover;
+          margin-bottom: 0.5rem;
+        }
+      }
+
+      .post {
+        &__info {
+          display: flex;
+          gap: 2rem;
+        }
+
+        &__btn {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          cursor: pointer;
+        }
+      }
+
+      svg {
+        height: 2rem;
+        width: 2rem;
+      }
+    }
+  }
+}

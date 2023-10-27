@@ -1,0 +1,31 @@
+@use "../../themes/theme.scss" as *;
+
+.user__info {
+  @include themify($themes) {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+    position: relative;
+
+    p {
+      display: flex;
+      gap: 0.5rem;
+
+      .username {
+        &,
+        &:link,
+        &:visited {
+          text-decoration: none;
+          font-size: 1.6rem;
+          color: themeColor("text-color-1");
+        }
+      }
+
+      .desc {
+        color: themeColor("text-color-2");
+      }
+    }
+  }
+}

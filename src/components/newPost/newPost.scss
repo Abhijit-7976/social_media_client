@@ -1,0 +1,112 @@
+@use "../../themes/theme.scss" as *;
+
+.new-post {
+  @include themify($themes) {
+    %btn {
+      padding: 1rem 2rem;
+      font-size: 1.6rem;
+      border-radius: 0.5rem;
+      background-color: themeColor("user-border");
+      color: themeColor("btn-text");
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover,
+      &:focus {
+        box-shadow: 0 2px 5px rgba(black, 0.4);
+        transform: translateY(-2px);
+      }
+
+      &:active {
+        box-shadow: 0 1px 3px rgba(black, 0.5);
+        transform: translateY(-1px);
+      }
+    }
+
+    background-color: themeColor("bg-1");
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    color: themeColor("text-color-2");
+
+    .head {
+      display: flex;
+      justify-content: space-between;
+
+      .user {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      button {
+        @extend %btn;
+      }
+    }
+
+    .post-form {
+      form {
+        border: 1px solid themeColor("border");
+        border-radius: 0.8rem;
+        padding: 1.5rem;
+        overflow: hidden;
+
+        textarea {
+          display: block;
+          resize: none;
+          width: 100%;
+          background-color: transparent;
+        }
+
+        .img-selected {
+          width: 10rem;
+          height: 10rem;
+          margin-bottom: 2rem;
+          background-color: themeColor("bg-2");
+          color: themeColor("text-color-1");
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+
+          img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: cover;
+          }
+
+          svg {
+            position: absolute;
+            right: 2px;
+            top: 2px;
+          }
+        }
+
+        .menue {
+          display: grid;
+          grid-template-columns: max-content 1fr max-content;
+          align-items: center;
+          gap: 1rem;
+
+          & > * {
+            cursor: pointer;
+          }
+
+          .btn-post {
+            @extend %btn;
+          }
+
+          & > svg {
+            fill: themeColor("text-color-1");
+            height: 2rem;
+            width: 2rem;
+          }
+        }
+      }
+    }
+  }
+}

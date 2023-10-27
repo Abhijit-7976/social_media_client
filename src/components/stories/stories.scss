@@ -1,0 +1,51 @@
+.stories {
+  display: flex;
+  gap: 1rem;
+  // padding: 2rem;
+
+  .story {
+    height: 25rem;
+    width: 16.6666666rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 1.5rem rgba(black, 0.8);
+
+    &--add {
+      & > img {
+        filter: brightness(30%);
+      }
+
+      .btn-add {
+        height: 6rem;
+        width: 6rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+
+        fill: white;
+      }
+    }
+
+    & > img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    &__user {
+      flex-direction: column;
+      align-items: flex-start;
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+
+      p span {
+        color: white !important;
+      }
+    }
+  }
+}

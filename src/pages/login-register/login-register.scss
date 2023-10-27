@@ -1,0 +1,166 @@
+@use "../../global-styles/base.scss" as *;
+
+.btn,
+.btn:link,
+.btn:visited {
+  text-decoration: none;
+  text-align: center;
+  width: 50%;
+  padding: 1rem 2rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover,
+  &:focus {
+    box-shadow: 0 1rem 2rem rgba($color-black, 0.2);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    box-shadow: 0 0.5rem 1rem rgba($color-black, 0.4);
+    transform: translateY(-1px);
+  }
+}
+
+.btn {
+  &--white {
+    background-color: $color-white;
+    color: $color-primary-dark;
+  }
+
+  &--purple {
+    background-color: $color-primary;
+    color: $color-white;
+    padding: 1.5rem 3rem;
+  }
+}
+
+.login,
+.register {
+  height: 100vh;
+  background-image: linear-gradient(
+    to top,
+    $color-primary-light,
+    $color-secondary-light
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .card {
+    width: 55%;
+    min-height: 58rem;
+    max-width: 105rem;
+    display: flex;
+
+    background-color: $color-white;
+    border-radius: 1rem;
+    overflow: hidden;
+    font-size: 1.6rem;
+
+    .greeting {
+      flex: 1;
+      background-size: cover;
+      background-position: center;
+      color: $color-white;
+
+      padding: 5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+
+      h1 {
+        font-size: 7rem;
+        line-height: 1.1;
+        letter-spacing: 0.2rem;
+      }
+
+      p {
+        line-height: 1.5;
+      }
+
+      span {
+        font-size: 1.4rem;
+      }
+    }
+
+    .form {
+      flex: 1;
+      padding: 5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3rem;
+
+      h1 {
+        font-size: 3.5rem;
+        color: $color-primary-dark;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+
+        .err {
+          padding: 0 2rem;
+          color: $color-grey;
+          margin-top: -1rem;
+        }
+
+        input {
+          font-size: 1.6rem;
+          background-color: $color-white;
+          border-bottom: 1px solid $color-grey-light;
+          padding: 2rem;
+          transition: all 0.2s;
+
+          &::placeholder {
+            color: $color-grey-light;
+          }
+
+          &:focus {
+            border-radius: 0.5rem;
+            border-bottom: 1px solid $color-grey;
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1rem rgba($color-black, 0.2);
+
+            &::placeholder {
+              color: $color-grey;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.login {
+  .card {
+    .greeting {
+      background-image: linear-gradient(
+          135deg,
+          rgba($color-primary-dark, 0.8),
+          rgba($color-secondary, 0.7)
+        ),
+        url(./assets/register-login/login-medium.jpg);
+    }
+  }
+}
+
+.register {
+  .card {
+    .greeting {
+      background-image: linear-gradient(
+          -135deg,
+          rgba($color-primary-dark, 0.85),
+          rgba($color-secondary, 0.75)
+        ),
+        url(./assets/register-login/register-medium.jpg);
+    }
+  }
+}

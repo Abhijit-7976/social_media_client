@@ -1,0 +1,18 @@
+@use "../../themes/theme.scss" as *;
+
+.layout {
+  @include themify($themes) {
+    display: grid;
+    grid-template-columns: [nav-start left-bar-start] 2fr [left-bar-end main-start] 7fr [main-end right-bar-start] 3fr[right-bar-end nav-end];
+    // column-gap: 1rem;
+    background-color: themeColor("bg-2");
+  }
+}
+
+.navbar {
+  grid-column: nav-start / nav-end;
+}
+
+.left-bar {
+  grid-column: left-bar-start / left-bar-end;
+}

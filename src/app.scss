@@ -1,0 +1,20 @@
+@use "./themes/theme.scss" as *;
+
+* {
+  @include themify($themes) {
+    &::-webkit-scrollbar {
+      width: 9px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: themeColor("bg-2");
+      // border-radius: 50px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: themeColor("scroll-thumb");
+      border: 2px solid themeColor("bg-2");
+      border-radius: 50px;
+    }
+  }
+}

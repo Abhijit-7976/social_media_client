@@ -1,0 +1,14 @@
+@use "../../themes/theme.scss" as *;
+
+.home {
+  @include themify($themes) {
+    background-color: themeColor("bg-2");
+    height: calc(100vh - 6rem);
+    overflow: auto;
+    padding: 2rem 3rem 2rem 3.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    font-size: 1.6rem;
+  }
+}
