@@ -1,54 +1,71 @@
 import SendIcon from "@mui/icons-material/Send";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import UserPic from "../userPic/UserPic";
 import "./comments.scss";
 
-const Comments = () => {
+import moment from "moment";
+import Loading from "../loading/Loading";
+
+const Comments = ({ postId, setCommentsCount }) => {
   const { curUser } = useAuth();
-  //Temporary
-  const comments = [
-    {
-      id: 1,
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem nequeaspernatur ullam aperiam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem nequeaspernatur ullam aperiam",
-      name: "John Doe",
-      userId: 1,
-      profilePic:
-        "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    },
-    {
-      id: 2,
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem nequeaspernatur ullam aperiam",
-      name: "Jane Doe",
-      userId: 2,
-      profilePic:
-        "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    },
-  ];
+  const [comments, setComments] = useState(null);
+  const newComment = useRef();
+
+  useEffect(() => {
+    async function fetchComments() {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/comments/all/${postId}`
+      );
+      setComments(res.data);
+    }
+    fetchComments();
+  }, [postId]);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/comments`, {
+      userId: curUser._id,
+      content: newComment.current.value,
+      postId: postId,
+    });
+    newComment.current.value = "";
+    setComments(comments => [res.data, ...comments]);
+    setCommentsCount(c => c + 1);
+  };
 
   return (
     <div className="comments">
-      <form className="write">
+      <form
+        className="write"
+        onSubmit={handleSubmit}>
         <UserPic pic={curUser.profilePic} />
         <input
           type="text"
           placeholder="write a comment"
+          ref={newComment}
         />
         <button>
           <SendIcon />
         </button>
       </form>
-      {comments.map(comment => (
-        <div
-          className="comment"
-          key={comment.id}>
-          <UserPic pic={comment.profilePic} />
-          <div className="comment__info">
-            <span>{comment.name}</span>
-            <p>{comment.desc}</p>
+      {!comments ? (
+        <Loading />
+      ) : (
+        comments.map(comment => (
+          <div
+            className="comment"
+            key={comment._id}>
+            <UserPic pic={comment.profilePic} />
+            <div className="comment__info">
+              <span>{comment.name}</span>
+              <p>{comment.content}</p>
+            </div>
+            <span className="date">{moment(comment.createdAt).fromNow()}</span>
           </div>
-          <span className="date">22 hours ago </span>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 };

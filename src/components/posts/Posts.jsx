@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import Post from "../post/Post";
-import "./posts.scss";
+import axios from "../../config/axiosInstance";
+import { useAuth } from "../../contexts/AuthContext";
 import Loading from "../loading/Loading";
 import NewPost from "../newPost/NewPost";
-import { useAuth } from "../../contexts/AuthContext";
-import axios from "../../config/axiosInstance";
+import Post from "../post/Post";
+import "./posts.scss";
 
 const Posts = ({ userId }) => {
   const [posts, setPosts] = useState(null);
@@ -18,9 +18,10 @@ const Posts = ({ userId }) => {
       setPosts(res.data);
     }
     fetchTimeline();
-  }, [userId]);
+  }, [userId, curUser._id]);
 
   if (!posts) return <Loading />;
+
   return (
     <div className="posts">
       <NewPost />

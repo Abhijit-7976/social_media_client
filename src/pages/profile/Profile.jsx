@@ -20,8 +20,9 @@ import "./profile.scss";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
+  const [isFollowing, setIsfollowing] = useState(false);
   const { username } = useParams();
-  const { curUser } = useAuth();
+  const { curUser, setCurUser } = useAuth();
 
   useEffect(() => {
     async function fetchUser() {
@@ -30,6 +31,37 @@ const Profile = () => {
     }
     fetchUser();
   }, [username]);
+
+  useEffect(() => {
+    if (user && user.followers.includes(curUser._id)) {
+      setIsfollowing(true);
+    }
+  }, [user, curUser._id]);
+
+  const handleFollow = async () => {
+    if (!isFollowing) {
+      await axios.patch(`/users/${user._id}/follow`, {
+        userId: curUser._id,
+      });
+      setIsfollowing(true);
+      setCurUser(curUser => {
+        const followings = [...curUser.followings];
+        followings.push(user._id);
+        return { ...curUser, followings };
+      });
+    } else {
+      await axios.patch(`/users/${user._id}/unfollow`, {
+        userId: curUser._id,
+      });
+      setIsfollowing(false);
+      setCurUser(curUser => {
+        const followings = curUser.followings.filter(followingUser => {
+          return followingUser !== user._id;
+        });
+        return { ...curUser, followings };
+      });
+    }
+  };
 
   if (!user) return <Loading />;
 
@@ -80,7 +112,12 @@ const Profile = () => {
               <span>{user.followings.length}</span>
               <span>Following</span>
             </div>
-            {username !== curUser.username && <FollowButton text="follow" />}
+            {username !== curUser.username && (
+              <FollowButton
+                onClick={handleFollow}
+                text={isFollowing ? "unfollow" : "follow"}
+              />
+            )}
             <span>{user.bio}</span>
           </div>
           <div className="user__options">

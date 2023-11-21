@@ -1,3 +1,4 @@
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -15,9 +16,11 @@ import "./post.scss";
 const Post = ({ post }) => {
   const { curUser } = useAuth();
   const [commentOpen, setCommentOpen] = useState(false);
+  const [menueOpen, setMenueOpen] = useState(false);
   const [user, setUser] = useState({});
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(post.likes.length);
+  const [commentsCount, setCommentsCount] = useState(post.comments.length);
 
   useEffect(() => {
     async function fetchUser() {
@@ -29,16 +32,36 @@ const Post = ({ post }) => {
     fetchUser();
   }, [post.userId]);
 
-  const handleLike = async () => {
-    await axios.patch(
-      `${import.meta.env.VITE_API_URL}/posts/${post._id}/like`,
-      { userId: curUser.id }
-    );
+  useEffect(() => {
+    setLiked(post.likes.includes(curUser._id));
+  }, [curUser._id, post.likes]);
 
-    setLiked(l => !l);
-    setLikesCount(like => {
-      return liked ? like - 1 : like + 1;
+  const handleLike = async () => {
+    const res = await axios.patch(
+      `${import.meta.env.VITE_API_URL}/posts/${post._id}/like`,
+      { userId: curUser._id }
+    );
+    if (res.data === "The post has been liked") {
+      setLiked(true);
+      setLikesCount(like => like + 1);
+    } else {
+      setLiked(false);
+      setLikesCount(like => like - 1);
+    }
+  };
+
+  const handleMenue = () => {
+    if (post.userId == curUser._id) {
+      setMenueOpen(o => !o);
+    }
+  };
+
+  const handleDelete = async () => {
+    console.log(curUser._id);
+    await axios.delete(`${import.meta.env.VITE_API_URL}/posts/${post._id}`, {
+      data: { userId: curUser._id },
     });
+    window.location.reload();
   };
 
   return (
@@ -52,7 +75,14 @@ const Post = ({ post }) => {
             desc={moment(post.createdAt).fromNow()}
             profileLink={`/profile/${user.username}`}
           />
-          <MoreHorizIcon />
+          <div>
+            <MoreHorizIcon onClick={handleMenue} />
+            {menueOpen && (
+              <div className="post__menue">
+                <DeleteOutlineOutlinedIcon onClick={handleDelete} />
+              </div>
+            )}
+          </div>
         </div>
         <p className="content__text">{post.content}</p>
         {post.img && (
@@ -77,14 +107,20 @@ const Post = ({ post }) => {
             className="post__btn"
             onClick={() => setCommentOpen(open => !open)}>
             <TextsmsOutlinedIcon />
-            12 Comments
+            {commentsCount} Comments
           </div>
           <div className="post__btn">
             <ShareOutlinedIcon />
             Share
           </div>
         </div>
-        {commentOpen && <Comments />}
+        {commentOpen && (
+          <Comments
+            postId={post._id}
+            commentsCount={commentsCount}
+            setCommentsCount={setCommentsCount}
+          />
+        )}
       </div>
     </div>
   );

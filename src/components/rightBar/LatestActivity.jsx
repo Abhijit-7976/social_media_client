@@ -6,7 +6,7 @@ const LatestActivity = () => {
       <span>Latest Activities</span>
       <div className="user">
         <User
-          profilePic="/assets/person/1.jpeg"
+          profilePic="/assets/no-avatar.png"
           username="Jane Doe"
           desc="changed their cover picture"
         />
@@ -16,7 +16,7 @@ const LatestActivity = () => {
       </div>
       <div className="user">
         <User
-          profilePic="/assets/person/1.jpeg"
+          profilePic="/assets/no-avatar.png"
           username="Jane Doe"
           desc="changed their cover picture"
         />
@@ -26,7 +26,7 @@ const LatestActivity = () => {
       </div>
       <div className="user">
         <User
-          profilePic="/assets/person/1.jpeg"
+          profilePic="/assets/no-avatar.png"
           username="Jane Doe"
           desc="changed their cover picture"
         />
@@ -36,7 +36,7 @@ const LatestActivity = () => {
       </div>
       <div className="user">
         <User
-          profilePic="/assets/person/1.jpeg"
+          profilePic="/assets/no-avatar.png"
           username="Jane Doe"
           desc="changed their cover picture"
         />

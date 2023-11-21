@@ -6,42 +6,42 @@ const OnlineFriends = () => {
       <span>Online Friends</span>
       <div className="user">
         <User
-          profilePic="/assets/person/1.jpeg"
+          profilePic="/assets/no-avatar.png"
           username="Jane Doe">
           <span className="online"></span>
         </User>
       </div>
       <div className="user">
         <User
-          profilePic="/assets/person/1.jpeg"
+          profilePic="/assets/no-avatar.png"
           username="Jane Doe">
           <span className="online"></span>
         </User>
       </div>
       <div className="user">
         <User
-          profilePic="/assets/person/1.jpeg"
+          profilePic="/assets/no-avatar.png"
           username="Jane Doe">
           <span className="online"></span>
         </User>
       </div>
       <div className="user">
         <User
-          profilePic="/assets/person/1.jpeg"
+          profilePic="/assets/no-avatar.png"
           username="Jane Doe">
           <span className="online"></span>
         </User>
       </div>
       <div className="user">
         <User
-          profilePic="/assets/person/1.jpeg"
+          profilePic="/assets/no-avatar.png"
           username="Jane Doe">
           <span className="online"></span>
         </User>
       </div>
       <div className="user">
         <User
-          profilePic="/assets/person/1.jpeg"
+          profilePic="/assets/no-avatar.png"
           username="Jane Doe">
           <span className="online"></span>
         </User>

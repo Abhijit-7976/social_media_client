@@ -5,7 +5,8 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../../config/axiosInstance";
 import { useAuth } from "../../contexts/AuthContext";
@@ -18,6 +19,36 @@ const NavBar = ({ className }) => {
   const { handleToggle, darkMode } = useDarkMode();
   const { curUser, setCurUser } = useAuth();
   const navigate = useNavigate();
+  const [searchText, setSearchText] = useState("");
+  const [allUsers, setAllUsers] = useState(null);
+  const [searchResult, setSearchResult] = useState(null);
+
+  useEffect(() => {
+    async function fetchAllUsers() {
+      const res = await axios.get("/users/all");
+      setAllUsers(res.data);
+    }
+    fetchAllUsers();
+  }, []);
+
+  useEffect(() => {
+    console.log(searchText);
+    const timeoutId = setTimeout(() => {
+      if (searchText) {
+        console.log("typed");
+        const matchUsers = allUsers.filter(user => {
+          return user.username
+            .toLowerCase()
+            .includes(searchText.trim().toLowerCase());
+        });
+        console.log(matchUsers);
+        setSearchResult(matchUsers);
+      }
+    }, 1500);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [searchText, allUsers]);
 
   const handleLogout = async () => {
     try {
@@ -29,6 +60,10 @@ const NavBar = ({ className }) => {
     }
   };
 
+  const handleSearch = value => {
+    setSearchText(value);
+  };
+
   return (
     <div className={`${className} nav`}>
       <Link
@@ -36,13 +71,31 @@ const NavBar = ({ className }) => {
         to="/">
         <h1>ShiniSphere</h1>
       </Link>
-      <div className="search">
-        <input
-          type="text"
-          placeholder="search"
-        />
-        <SearchOutlinedIcon />
+      <div className="search__box">
+        <div className="search--bar">
+          <input
+            type="text"
+            placeholder="search"
+            onChange={e => handleSearch(e.target.value)}
+          />
+          <SearchOutlinedIcon />
+        </div>
+        {searchResult && (
+          <div className="search--result">
+            {searchResult && searchResult.length > 0
+              ? searchResult.map(result => (
+                  <Link
+                    key={result._id}
+                    className="username"
+                    to={`/profile/${result.username}`}>
+                    <span>{result.username}</span>
+                  </Link>
+                ))
+              : "No username found"}
+          </div>
+        )}
       </div>
+
       <div className="options">
         {darkMode ? (
           <div

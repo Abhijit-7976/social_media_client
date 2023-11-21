@@ -35,22 +35,26 @@ const NewPost = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    console.log(file ? "present" : "not");
     const newPost = {
       userId: curUser._id,
       content: postText.current.value,
     };
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "ShiniSphere");
+
     try {
       setIsLoading(true);
       // const res = await axios.post("/files/upload", formData);
-      const res = await Axios.post(
-        "https://api.cloudinary.com/v1_1/ddpj0uolz/image/upload",
-        formData
-      );
-      console.log(res.data);
-      newPost.img = res.data.secure_url;
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "ShiniSphere");
+        const res = await Axios.post(
+          "https://api.cloudinary.com/v1_1/ddpj0uolz/image/upload",
+          formData
+        );
+        console.log(res.data);
+        newPost.img = res.data.secure_url;
+      }
       // newPost.img = res.data.imageUrl;
       const result = await axios.post("/posts", newPost);
       console.log(result);
