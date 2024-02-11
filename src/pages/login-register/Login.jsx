@@ -22,7 +22,7 @@ const Login = () => {
 
   useEffect(() => {
     async function loginUser() {
-      // if (!inputs) return;
+      if (!inputs) return;
       try {
         setIsLoading(true);
         const res = await axios.post("/auth/login", inputs);
